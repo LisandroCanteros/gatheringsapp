@@ -1,0 +1,331 @@
+{
+  "info": {
+    "_postman_id": "gathering-api-collection",
+    "name": "Gathering API",
+    "description": "Full testing flow for recurring event RSVP API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Create Template - Soccer Tuesday",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Soccer Tuesday\",\n  \"description\": \"Weekly soccer with optional dinner\",\n  \"timezone\": \"UTC\",\n  \"recurrenceType\": \"WEEKLY\",\n  \"weeklyDay\": \"TUESDAY\",\n  \"startDate\": \"2026-02-24\",\n  \"endDate\": null,\n  \"startTime\": \"20:00:00\",\n  \"subActivities\": [\n    { \"name\": \"Soccer\" },\n    { \"name\": \"Dinner\" }\n  ]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/templates",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "templates"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. List All Templates",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/templates",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "templates"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Generate Occurrences (Feb-Mar)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"from\": \"2026-02-24\",\n  \"to\": \"2026-03-24\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/templates/1/occurrences/generate",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "templates",
+            "1",
+            "occurrences",
+            "generate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. List Occurrences (Feb-Mar)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/occurrences?from=2026-02-24&to=2026-03-24",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "occurrences"
+          ],
+          "query": [
+            {
+              "key": "from",
+              "value": "2026-02-24"
+            },
+            {
+              "key": "to",
+              "value": "2026-03-24"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5. Join by Code (from step 3 result)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/public/join/PLACEHOLDER_JOIN_CODE",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "public",
+            "join",
+            "PLACEHOLDER_JOIN_CODE"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6. Get Occurrence by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/occurrences/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "occurrences",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "7. Vote YES on Soccer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"subActivityId\": 1,\n  \"participantName\": \"Lisandro\",\n  \"participantEmail\": \"lisandro@example.com\",\n  \"yesNo\": true,\n  \"emailOptIn\": true\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/public/occurrences/1/votes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "public",
+            "occurrences",
+            "1",
+            "votes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "8. Vote NO on Dinner",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"subActivityId\": 2,\n  \"participantName\": \"Lisandro\",\n  \"participantEmail\": \"lisandro@example.com\",\n  \"yesNo\": false,\n  \"emailOptIn\": false\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/public/occurrences/1/votes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "public",
+            "occurrences",
+            "1",
+            "votes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "9. Vote YES on Soccer (different person)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"subActivityId\": 1,\n  \"participantName\": \"Pablo\",\n  \"participantEmail\": \"pablo@example.com\",\n  \"yesNo\": true,\n  \"emailOptIn\": true\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/public/occurrences/1/votes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "public",
+            "occurrences",
+            "1",
+            "votes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "10. View Occurrence with All Votes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/occurrences/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "occurrences",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "11. Send Reminders (Manual)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/admin/reminders/send?date=2026-02-25",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "admin",
+            "reminders",
+            "send"
+          ],
+          "query": [
+            {
+              "key": "date",
+              "value": "2026-02-25"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "12. Delete Vote (by ID from step 7)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/public/votes/PLACEHOLDER_VOTE_ID",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "public",
+            "votes",
+            "PLACEHOLDER_VOTE_ID"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
