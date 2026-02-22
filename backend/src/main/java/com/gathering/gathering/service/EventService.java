@@ -165,10 +165,16 @@ public class EventService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sub-activity does not belong to this occurrence");
         }
 
+        // Validate email uniqueness per activity
+        String normalizedEmail = email == null || email.isBlank() ? null : email.trim();
+        if (normalizedEmail != null && rsvpVoteRepository.existsByOccurrenceSubActivityIdAndParticipantEmailIgnoreCase(subActivityId, normalizedEmail)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This email has already voted on this activity");
+        }
+
         RsvpVote vote = new RsvpVote();
         vote.setOccurrenceSubActivity(subActivity);
         vote.setParticipantName(name.trim());
-        vote.setParticipantEmail(email == null || email.isBlank() ? null : email.trim());
+        vote.setParticipantEmail(normalizedEmail);
         vote.setYesNo(yesNo);
         vote.setEmailOptIn(emailOptIn != null && emailOptIn);
 

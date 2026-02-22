@@ -8,4 +8,6 @@ import java.util.List;
 public interface RsvpVoteRepository extends JpaRepository<RsvpVote, Long> {
 
     List<RsvpVote> findByOccurrenceSubActivityIdOrderByIdDesc(Long occurrenceSubActivityId);
+
+    boolean existsByOccurrenceSubActivityIdAndParticipantEmailIgnoreCase(Long occurrenceSubActivityId, String participantEmail);
 }
